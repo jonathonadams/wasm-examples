@@ -1,0 +1,22 @@
+{
+	"targets": {
+		"debug": {
+			"outFile": "src/lib/wasm/debug.wasm",
+			"textFile": "src/lib/wasm/debug.wat",
+			"sourceMap": true,
+			"debug": true
+		},
+		"release": {
+			"outFile": "src/lib/wasm/examples.wasm",
+			"textFile": "src/lib/wasm/examples.wat",
+			"sourceMap": true,
+			"optimizeLevel": 3,
+			"shrinkLevel": 0,
+			"converge": false,
+			"noAssert": false
+		}
+	},
+	"options": {
+		"bindings": "esm"
+	}
+}

@@ -1,0 +1,47 @@
+/* 
+* Global CSS 
+*/
+
+/**
+ * This injects Tailwind's base styles and any base styles registered by
+ * plugins.
+ */
+@import 'tailwindcss/base';
+
+/**
+ * This injects Tailwind's component classes and any component classes
+ * registered by plugins.
+ */
+@import 'tailwindcss/components';
+
+/**
+ * This injects Tailwind's utility classes and any utility classes registered
+ * by plugins.
+ */
+@import 'tailwindcss/utilities';
+
+/**
+ * Additional default styles 
+ *
+ * Make sure to create individual selector rules so an 
+ * individual `CSSStyleRule` is created for each selector
+ */
+@layer base {
+	:root {
+		font-family: 'Inter', sans-serif;
+		font-feature-settings: 'cv11' 1;
+	}
+	@supports (font-variation-settings: normal) {
+		:root {
+			font-family: 'Inter var', sans-serif;
+		}
+	}
+}
+
+/* 
+@layer utilities {
+}
+
+@layer components {
+} 
+*/

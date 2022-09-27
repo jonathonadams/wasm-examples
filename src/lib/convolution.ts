@@ -39,7 +39,13 @@ export function convolution(vec1: number[], vec2: number[]) {
 		}
 		disp = disp + 1;
 	}
+
+	// Trim to original size
+
 	return convVec;
+
+	// const span = Math.floor(vec1.length / 2);
+	// return convVec.slice(Math.floor(convVec.length / 2) - span, Math.ceil(convVec.length / 2 + span));
 }
 
 /*
@@ -63,5 +69,6 @@ export function convolve(vectors: number[][]): number[] {
 	for (let i = 1; i <= vectors.length - 1; i++) {
 		convolved = convolution(convolved, vectors[i]);
 	}
+
 	return convolved;
 }

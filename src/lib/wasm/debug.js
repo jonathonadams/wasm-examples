@@ -17,24 +17,39 @@ async function instantiate(module, imports = {}) {
   const { exports } = await WebAssembly.instantiate(module, adaptedImports);
   const memory = exports.memory || imports.env.memory;
   const adaptedExports = Object.setPrototypeOf({
-    add(a, b) {
-      // assembly/index/add(usize, usize) => usize
-      return exports.add(a, b) >>> 0;
+    sum(numbers) {
+      // assembly/index/sum(~lib/array/Array<i32>) => i32
+      numbers = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, numbers) || __notnull();
+      return exports.sum(numbers);
+    },
+    average(numbers) {
+      // assembly/index/average(~lib/array/Array<i32>) => i32
+      numbers = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, numbers) || __notnull();
+      return exports.average(numbers);
     },
     convolution(vec1, vec2) {
-      // assembly/index/convolution(~lib/array/Array<usize>, ~lib/array/Array<usize>) => ~lib/array/Array<usize>
-      vec1 = __retain(__lowerArray((pointer, value) => { new Uint32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, vec1) || __notnull());
-      vec2 = __lowerArray((pointer, value) => { new Uint32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, vec2) || __notnull();
+      // assembly/index/convolution(~lib/array/Array<i32>, ~lib/array/Array<i32>) => ~lib/array/Array<i32>
+      vec1 = __retain(__lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, vec1) || __notnull());
+      vec2 = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, vec2) || __notnull();
       try {
-        return __liftArray(pointer => new Uint32Array(memory.buffer)[pointer >>> 2], 2, exports.convolution(vec1, vec2) >>> 0);
+        return __liftArray(pointer => new Int32Array(memory.buffer)[pointer >>> 2], 2, exports.convolution(vec1, vec2) >>> 0);
       } finally {
         __release(vec1);
       }
     },
     convolve(vectors) {
-      // assembly/index/convolve(~lib/array/Array<~lib/array/Array<usize>>) => ~lib/array/Array<usize>
-      vectors = __lowerArray((pointer, value) => { new Uint32Array(memory.buffer)[pointer >>> 2] = __lowerArray((pointer, value) => { new Uint32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, value) || __notnull(); }, 5, 2, vectors) || __notnull();
-      return __liftArray(pointer => new Uint32Array(memory.buffer)[pointer >>> 2], 2, exports.convolve(vectors) >>> 0);
+      // assembly/index/convolve(~lib/array/Array<~lib/array/Array<i32>>) => ~lib/array/Array<i32>
+      vectors = __lowerArray((pointer, value) => { new Uint32Array(memory.buffer)[pointer >>> 2] = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, value) || __notnull(); }, 5, 2, vectors) || __notnull();
+      return __liftArray(pointer => new Int32Array(memory.buffer)[pointer >>> 2], 2, exports.convolve(vectors) >>> 0);
+    },
+    calcFib(limit) {
+      // assembly/index/calcFib(i32) => ~lib/array/Array<i32>
+      return __liftArray(pointer => new Int32Array(memory.buffer)[pointer >>> 2], 2, exports.calcFib(limit) >>> 0);
+    },
+    array(arr) {
+      // assembly/index/array(~lib/array/Array<i32>) => i32
+      arr = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, arr) || __notnull();
+      return exports.array(arr);
     },
   }, exports);
   function __liftString(pointer) {
@@ -99,8 +114,15 @@ async function instantiate(module, imports = {}) {
 export const {
   memory,
   add,
+  subtract,
+  multiply,
+  divide,
+  sum,
+  average,
   convolution,
-  convolve
+  convolve,
+  calcFib,
+  array
 } = await (async url => instantiate(
   await (async () => {
     try { return await globalThis.WebAssembly.compileStreaming(globalThis.fetch(url)); }

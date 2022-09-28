@@ -3,7 +3,6 @@ import normal, { type Gaussian } from 'gaussian';
 const LOWER_PRICE = 500000;
 const UPPER_PRICE = 2000000;
 
-export const sampling = 201;
 const standardDeviations = 4;
 
 const upperVariance = 0.1;
@@ -31,7 +30,7 @@ export const line = function (a: number, b: number, s: number) {
 	return Array.from(new Array(s), (_, i) => a + i * d);
 };
 
-export function generationProperties(x: number) {
+export function generationProperties(x: number, sampling: number) {
 	const properties: Property[] = [];
 
 	for (let i = 0; i < x; i++) {

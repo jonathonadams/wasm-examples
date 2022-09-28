@@ -20,8 +20,8 @@
 		return array;
 	};
 
-	let range = 10;
-	$: arrayLength = range * 1000;
+	// let range = 10;
+	$: arrayLength = 10000;
 
 	$: arrayArg = createVectors(arrayLength);
 
@@ -35,9 +35,17 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<div>
+	<div class="flex">
+		<input
+			class="w-48 mr-4"
+			id="length"
+			type="range"
+			min="100000"
+			max="10000000"
+			step="10000"
+			bind:value={arrayLength}
+		/>
 		<label for="length">Array length: {arrayLength}</label>
-		<input id="length" type="range" min="1" max="10000" bind:value={range} />
 	</div>
 
 	<div class="flex flex-row gap-4 items-center">

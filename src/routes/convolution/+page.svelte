@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { convolve } from '$lib/convolution';
+	import { convolve } from '$lib/examples';
 	import { convolve as convolveAssembly } from '$lib/wasm/examples.js';
 	import { formatPerformance, perf } from '$lib/utils';
-
-	import { generationProperties, type Property } from './properties';
+	import { generationProperties } from './properties';
+	import type { Property } from './properties';
 	import Distribution from './distribution.svelte';
 
 	const con = perf(convolve);
@@ -17,6 +17,7 @@
 
 	let numberOfProps = 100;
 	let selectedProp: Property;
+
 	let vectors: number[][] = [];
 
 	const createProperties = () => {
@@ -25,17 +26,17 @@
 		vectors = properties.map((p) => p.ys);
 	};
 
-	// const vecA = [2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2];
-
 	// const createVectors = (length: number) => {
+	// const vecA = [2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2];
+	// 	const len = length * 10;
 	// 	const vectors: number[][] = [];
-	// 	for (let i = 0; i < length; i++) {
+	// 	for (let i = 0; i < len; i++) {
 	// 		vectors.push([...vecA]);
 	// 	}
 	// 	return vectors;
 	// };
 
-	// $: vectors = createVectors(vectorLength);
+	// $: vectors = createVectors(numberOfProps);
 
 	const runJs = () => {
 		[result, time] = con(vectors);
@@ -47,11 +48,18 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<div>
+	<div class="flex align-middle">
+		<input
+			class="w-48 mr-4"
+			id="props"
+			type="range"
+			min="1"
+			max="1000"
+			bind:value={numberOfProps}
+		/>
 		<label for="props">Number of properties: {numberOfProps}</label>
-		<input id="props" type="range" min="1" max="1000" bind:value={numberOfProps} />
-		<button type="button" class="btn" on:click={createProperties}>Generate Properties</button>
 	</div>
+	<button type="button" class="btn w-48" on:click={createProperties}>Generate Properties</button>
 
 	<div class="flex flex-row gap-4 items-center">
 		<button type="button" class="btn" on:click={runJs}>Execute JavaScript</button>

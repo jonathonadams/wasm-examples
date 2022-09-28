@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 
 	const links = [
-		{ href: '/', name: 'About' },
+		{ href: '/', name: 'Math' },
 		{ href: '/array', name: 'Array' },
 		{ href: '/fibonacci', name: 'Fibonacci' },
 		{ href: '/convolution', name: 'Convolution' }

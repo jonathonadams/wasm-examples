@@ -93,35 +93,6 @@
 	// #################
 
 	$: xm = xScale(n.mean);
-	// $: xm =
-	// 	selectedDistribution === Distribution.pdf
-	// 		? xScale(multiNormal.amean)
-	// 		: selectedDistribution === Distribution.cdf
-	// 		? xScale(multiNormal.ppf(0.5))
-	// 		: xScale(0.5);
-
-	// #################
-	// The Legend
-	// #################
-
-	// The vertical spacing between each item in the legend
-	const legendSpacing = 25;
-
-	// total legend height
-	$: legendHeight = legendSpacing * 1 + 8; /* bottom spacing */
-
-	// #################
-	//  Tool Tip
-	// #################
-
-	const tooltipWidth = 110;
-	const tooltipOffset = 5;
-	const tooltipHeight = 30;
-
-	let tooltipVisible = false;
-	let px = 0;
-	let tx = 0;
-	let ty = 0;
 
 	const onResizeChange = ([chart]: ResizeObserverEntry[]) => {
 		// We are only listening to one element, the chart
@@ -183,19 +154,6 @@
 			</filter>
 		</defs>
 
-		<!-- Y - Axis 
-		<g transform="translate({margin.left},0)">
-			{#each yScale.ticks() as y, i (y)}
-				<g transform="translate(0, {yScale(y) + correction})">
-					<line x1="-6" />
-					<text class="text-xs" x="-50" dy="-3">{densityFormatter(y)}</text>
-					{#if i === 0 || y === 1}
-						<line x2={plotWidth} />
-					{/if}
-				</g>
-			{/each}
-		</g> -->
-
 		<!-- Bottom Axis -->
 		<g class="axis-bottom" transform="translate(0,{height - margin.bottom})">
 			<!-- left border of chart -->
@@ -234,10 +192,6 @@
 				<line x1={xScale(l)} x2={xScale(l)} {y1} y2={yScale(n.pdf(l))} />
 				<line x1={xScale(h)} x2={xScale(h)} {y1} y2={yScale(n.pdf(h))} />
 				<line x1={xm} x2={xm} {y1} y2={yScale(n.pdf(n.ppf(0.5)))} />
-
-				{#if tooltipVisible}
-					<line x1={px} x2={px} {y1} {y2} />
-				{/if}
 			</g>
 		</g>
 	</svg>

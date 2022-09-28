@@ -164,7 +164,7 @@
   call $assembly/index/sum
   local.get $numbers
   call $~lib/array/Array<i32>#get:length
-  call $assembly/index/divide
+  i32.div_s
  )
  (func $~lib/rt/itcms/Object#set:nextWithColor (param $0 i32) (param $1 i32)
   local.get $0

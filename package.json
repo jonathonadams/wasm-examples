@@ -4,7 +4,7 @@
 	"scripts": {
 		"predev": "npm run asbuild",
 		"dev": "vite dev",
-		"prebuild": "npm run check && npm run build:wasm && npm run asbuild",
+		"prebuild": "npm run check && npm run asbuild",
 		"build": "vite build",
 		"package": "svelte-kit package",
 		"preview": "sirv build --no-clear --single",

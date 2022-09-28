@@ -41,13 +41,6 @@ export declare function sum(numbers: Array<number>): number;
  */
 export declare function average(numbers: Array<number>): number;
 /**
- * assembly/index/convolution
- * @param vec1 `~lib/array/Array<i32>`
- * @param vec2 `~lib/array/Array<i32>`
- * @returns `~lib/array/Array<i32>`
- */
-export declare function convolution(vec1: Array<number>, vec2: Array<number>): Array<number>;
-/**
  * assembly/index/convolve
  * @param vectors `~lib/array/Array<~lib/array/Array<i32>>`
  * @returns `~lib/array/Array<i32>`

@@ -27,16 +27,6 @@ async function instantiate(module, imports = {}) {
       numbers = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, numbers) || __notnull();
       return exports.average(numbers);
     },
-    convolution(vec1, vec2) {
-      // assembly/index/convolution(~lib/array/Array<i32>, ~lib/array/Array<i32>) => ~lib/array/Array<i32>
-      vec1 = __retain(__lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, vec1) || __notnull());
-      vec2 = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, vec2) || __notnull();
-      try {
-        return __liftArray(pointer => new Int32Array(memory.buffer)[pointer >>> 2], 2, exports.convolution(vec1, vec2) >>> 0);
-      } finally {
-        __release(vec1);
-      }
-    },
     convolve(vectors) {
       // assembly/index/convolve(~lib/array/Array<~lib/array/Array<i32>>) => ~lib/array/Array<i32>
       vectors = __lowerArray((pointer, value) => { new Uint32Array(memory.buffer)[pointer >>> 2] = __lowerArray((pointer, value) => { new Int32Array(memory.buffer)[pointer >>> 2] = value; }, 3, 2, value) || __notnull(); }, 5, 2, vectors) || __notnull();
@@ -89,23 +79,6 @@ async function instantiate(module, imports = {}) {
     exports.__unpin(header);
     return header;
   }
-  const refcounts = new Map();
-  function __retain(pointer) {
-    if (pointer) {
-      const refcount = refcounts.get(pointer);
-      if (refcount) refcounts.set(pointer, refcount + 1);
-      else refcounts.set(exports.__pin(pointer), 1);
-    }
-    return pointer;
-  }
-  function __release(pointer) {
-    if (pointer) {
-      const refcount = refcounts.get(pointer);
-      if (refcount === 1) exports.__unpin(pointer), refcounts.delete(pointer);
-      else if (refcount) refcounts.set(pointer, refcount - 1);
-      else throw Error(`invalid refcount '${refcount}' for reference '${pointer}'`);
-    }
-  }
   function __notnull() {
     throw TypeError("value must not be null");
   }
@@ -119,7 +92,6 @@ export const {
   divide,
   sum,
   average,
-  convolution,
   convolve,
   calcFib,
   array

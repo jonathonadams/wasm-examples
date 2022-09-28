@@ -42,10 +42,10 @@
  (data (i32.const 384) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 412) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1e\00\00\00~\00l\00i\00b\00/\00r\00t\00/\00t\00l\00s\00f\00.\00t\00s\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 476) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1a\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00\00\00")
- (data (i32.const 524) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h\00")
- (data (i32.const 572) "\1c\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 604) "|\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00^\00\00\00E\00l\00e\00m\00e\00n\00t\00 \00t\00y\00p\00e\00 \00m\00u\00s\00t\00 \00b\00e\00 \00n\00u\00l\00l\00a\00b\00l\00e\00 \00i\00f\00 \00a\00r\00r\00a\00y\00 \00i\00s\00 \00h\00o\00l\00e\00y\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 732) "\1c\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 524) "|\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00^\00\00\00E\00l\00e\00m\00e\00n\00t\00 \00t\00y\00p\00e\00 \00m\00u\00s\00t\00 \00b\00e\00 \00n\00u\00l\00l\00a\00b\00l\00e\00 \00i\00f\00 \00a\00r\00r\00a\00y\00 \00i\00s\00 \00h\00o\00l\00e\00y\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 652) "\1c\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 684) "\1c\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 716) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h\00")
  (data (i32.const 764) "\1c\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 796) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d\00\00\00")
  (data (i32.const 860) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d\00\00\00\00\00")
@@ -65,7 +65,6 @@
  (export "memory" (memory $0))
  (export "sum" (func $export:assembly/index/sum))
  (export "average" (func $export:assembly/index/average))
- (export "convolution" (func $export:assembly/index/convolution))
  (export "convolve" (func $export:assembly/index/convolve))
  (export "array" (func $export:assembly/index/array))
  (start $~start)
@@ -153,18 +152,14 @@
  )
  (func $assembly/index/average (param $numbers i32) (result i32)
   local.get $numbers
-  call $~lib/array/Array<i32>#get:length
-  i32.const 0
-  i32.eq
-  if
-   i32.const 0
-   return
-  end
-  local.get $numbers
   call $assembly/index/sum
   local.get $numbers
   call $~lib/array/Array<i32>#get:length
   i32.div_s
+ )
+ (func $~lib/array/Array<~lib/array/Array<i32>>#get:length (param $this i32) (result i32)
+  local.get $this
+  i32.load $0 offset=12
  )
  (func $~lib/rt/itcms/Object#set:nextWithColor (param $0 i32) (param $1 i32)
   local.get $0
@@ -2413,7 +2408,7 @@
    i32.shr_u
    i32.gt_u
    if
-    i32.const 544
+    i32.const 736
     i32.const 496
     i32.const 19
     i32.const 48
@@ -2564,10 +2559,6 @@
   local.get $index
   local.get $value
   call $~lib/array/Array<i32>#__uset
- )
- (func $~lib/array/Array<~lib/array/Array<i32>>#get:length (param $this i32) (result i32)
-  local.get $this
-  i32.load $0 offset=12
  )
  (func $assembly/index/fib (param $n i32) (result i32)
   local.get $n
@@ -2738,10 +2729,10 @@
   i32.const 288
   local.get $0
   call $~lib/rt/itcms/__visit
-  i32.const 544
+  i32.const 736
   local.get $0
   call $~lib/rt/itcms/__visit
-  i32.const 624
+  i32.const 544
   local.get $0
   call $~lib/rt/itcms/__visit
   i32.const 96
@@ -2961,7 +2952,7 @@
    i32.const 0
    i32.const 2
    i32.const 3
-   i32.const 592
+   i32.const 64
    call $~lib/rt/__newArray
    local.set $4
    global.get $~lib/memory/__stack_pointer
@@ -2991,7 +2982,7 @@
   i32.const 0
   i32.const 2
   i32.const 3
-  i32.const 752
+  i32.const 672
   call $~lib/rt/__newArray
   local.tee $var$1
   i32.store $0
@@ -3128,6 +3119,62 @@
   global.set $~lib/memory/__stack_pointer
   local.get $7
  )
+ (func $~lib/array/Array<~lib/array/Array<i32>>#__get (param $this i32) (param $index i32) (result i32)
+  (local $value i32)
+  (local $3 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store $0
+  local.get $index
+  local.get $this
+  i32.load $0 offset=12
+  i32.ge_u
+  if
+   i32.const 288
+   i32.const 496
+   i32.const 114
+   i32.const 42
+   call $~lib/builtins/abort
+   unreachable
+  end
+  global.get $~lib/memory/__stack_pointer
+  local.get $this
+  i32.load $0 offset=4
+  local.get $index
+  i32.const 2
+  i32.shl
+  i32.add
+  i32.load $0
+  local.tee $value
+  i32.store $0
+  i32.const 1
+  drop
+  i32.const 0
+  i32.eqz
+  drop
+  local.get $value
+  i32.eqz
+  if
+   i32.const 544
+   i32.const 496
+   i32.const 118
+   i32.const 40
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $value
+  local.set $3
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $3
+ )
  (func $assembly/index/convolution (param $vec1 i32) (param $vec2 i32) (result i32)
   (local $var$2 i32)
   (local $var$3 i32)
@@ -3150,7 +3197,7 @@
   i32.const 0
   i32.const 2
   i32.const 3
-  i32.const 64
+  i32.const 704
   call $~lib/rt/__newArray
   local.tee $var$4
   i32.store $0
@@ -3268,62 +3315,6 @@
   global.set $~lib/memory/__stack_pointer
   local.get $8
  )
- (func $~lib/array/Array<~lib/array/Array<i32>>#__get (param $this i32) (param $index i32) (result i32)
-  (local $value i32)
-  (local $3 i32)
-  global.get $~lib/memory/__stack_pointer
-  i32.const 4
-  i32.sub
-  global.set $~lib/memory/__stack_pointer
-  call $~stack_check
-  global.get $~lib/memory/__stack_pointer
-  i32.const 0
-  i32.store $0
-  local.get $index
-  local.get $this
-  i32.load $0 offset=12
-  i32.ge_u
-  if
-   i32.const 288
-   i32.const 496
-   i32.const 114
-   i32.const 42
-   call $~lib/builtins/abort
-   unreachable
-  end
-  global.get $~lib/memory/__stack_pointer
-  local.get $this
-  i32.load $0 offset=4
-  local.get $index
-  i32.const 2
-  i32.shl
-  i32.add
-  i32.load $0
-  local.tee $value
-  i32.store $0
-  i32.const 1
-  drop
-  i32.const 0
-  i32.eqz
-  drop
-  local.get $value
-  i32.eqz
-  if
-   i32.const 624
-   i32.const 496
-   i32.const 118
-   i32.const 40
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $value
-  local.set $3
-  global.get $~lib/memory/__stack_pointer
-  i32.const 4
-  i32.add
-  global.set $~lib/memory/__stack_pointer
-  local.get $3
- )
  (func $export:assembly/index/sum (param $0 i32) (result i32)
   (local $1 i32)
   global.get $~lib/memory/__stack_pointer
@@ -3361,29 +3352,6 @@
   i32.add
   global.set $~lib/memory/__stack_pointer
   local.get $1
- )
- (func $export:assembly/index/convolution (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  global.get $~lib/memory/__stack_pointer
-  i32.const 8
-  i32.sub
-  global.set $~lib/memory/__stack_pointer
-  call $~stack_check
-  global.get $~lib/memory/__stack_pointer
-  local.get $0
-  i32.store $0
-  global.get $~lib/memory/__stack_pointer
-  local.get $1
-  i32.store $0 offset=4
-  local.get $0
-  local.get $1
-  call $assembly/index/convolution
-  local.set $2
-  global.get $~lib/memory/__stack_pointer
-  i32.const 8
-  i32.add
-  global.set $~lib/memory/__stack_pointer
-  local.get $2
  )
  (func $export:assembly/index/convolve (param $0 i32) (result i32)
   (local $1 i32)

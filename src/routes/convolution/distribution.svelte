@@ -2,8 +2,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import type { Gaussian } from 'gaussian';
 	import { correction$ } from '$lib/media_queries';
-	import { currencyFormatter } from './formatting';
-	import type { Property } from './properties';
+	import { currencyFormatter } from '$lib/formatting';
+	import type { Property } from '$lib/properties';
 
 	import {
 		scaleLinear,

@@ -9,7 +9,7 @@
 		"release": {
 			"outFile": "src/lib/wasm/examples.wasm",
 			"textFile": "src/lib/wasm/examples.wat",
-			"sourceMap": true,
+			"sourceMap": false,
 			"optimizeLevel": 3,
 			"shrinkLevel": 0,
 			"converge": false,
